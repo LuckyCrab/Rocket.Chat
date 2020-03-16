@@ -3,7 +3,7 @@ import { Match, check } from 'meteor/check';
 
 import { settings } from '../../../settings';
 import { callbacks } from '../../../callbacks';
-import { Messages } from '../../../models';
+import { Messages, Uploads } from '../../../models';
 import { Apps } from '../../../apps/server';
 import { Markdown } from '../../../markdown/server';
 import { isURL, isRelativeURL } from '../../../utils/lib/isURL';
@@ -180,6 +180,10 @@ export const sendMessage = function(user, message, room, upsert = false) {
 		if (prevent) {
 			if (settings.get('Apps_Framework_Development_Mode')) {
 				console.log('A Rocket.Chat App prevented the message sending.', message);
+			}
+
+			if (message.file) {
+				Uploads.deleteFile(message.file._id);
 			}
 
 			return;
