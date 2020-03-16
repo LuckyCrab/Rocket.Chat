@@ -151,6 +151,10 @@ export const sendMessage = function(user, message, room, upsert = false) {
 
 	validateMessage(message);
 
+	if (message.file) {
+		Uploads.update({ _id: message.file._id }, { $set: { _hidden: true } });
+	}
+
 	if (!message.ts) {
 		message.ts = new Date();
 	}
@@ -217,6 +221,11 @@ export const sendMessage = function(user, message, room, upsert = false) {
 	}
 
 	message = callbacks.run('beforeSaveMessage', message, room);
+
+	if (message.file) {
+		Uploads.update({ _id: message.file._id }, { $set: { _hidden: false } });
+	}
+
 	if (message) {
 		if (message._id && upsert) {
 			const { _id } = message;
