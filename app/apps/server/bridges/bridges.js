@@ -6,6 +6,7 @@ import { AppCommandsBridge } from './commands';
 import { AppApisBridge } from './api';
 import { AppEnvironmentalVariableBridge } from './environmental';
 import { AppHttpBridge } from './http';
+import { AppNetBridge } from './net';
 import { AppListenerBridge } from './listeners';
 import { AppMessageBridge } from './messages';
 import { AppPersistenceBridge } from './persistence';
@@ -27,6 +28,7 @@ export class RealAppBridges extends AppBridges {
 		this._detBridge = new AppDetailChangesBridge(orch);
 		this._envBridge = new AppEnvironmentalVariableBridge(orch);
 		this._httpBridge = new AppHttpBridge(orch);
+		this._netBridge = new AppNetBridge(orch);
 		this._lisnBridge = new AppListenerBridge(orch);
 		this._msgBridge = new AppMessageBridge(orch);
 		this._persistBridge = new AppPersistenceBridge(orch);
@@ -53,6 +55,10 @@ export class RealAppBridges extends AppBridges {
 
 	getHttpBridge() {
 		return this._httpBridge;
+	}
+
+	getNetBridge() {
+		return this._netBridge;
 	}
 
 	getListenerBridge() {
